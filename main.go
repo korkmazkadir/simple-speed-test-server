@@ -16,8 +16,8 @@ func check(e error) {
 
 func main() {
 
-	log.Println("Creating files to serve...")
-	createFilesToServe()
+	//log.Println("Creating files to serve...")
+	//createFilesToServe()
 
 	// create file server handler
 	fs := http.FileServer(http.Dir(dataDirectory))
