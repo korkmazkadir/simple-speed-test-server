@@ -1,8 +1,11 @@
 package main
 
 import (
+	"fmt"
 	"log"
 	"net/http"
+	"net"
+	"os"
 	"os/exec"
 )
 
@@ -22,9 +25,15 @@ func main() {
 	// create file server handler
 	fs := http.FileServer(http.Dir(dataDirectory))
 
-	log.Println("listening on port 9000...")
+	listener, err := net.Listen("tcp", ":0")
+	if err != nil {
+    		panic(err)
+	}
+
+	fmt.Printf("[%d] --> using port %d \n", os.Getpid() ,listener.Addr().(*net.TCPAddr).Port)
+
 	// start HTTP server with `fs` as the default handler
-	log.Fatal(http.ListenAndServe(":9000", fs))
+	log.Fatal(http.Serve(listener, fs))
 
 }
 
